@@ -41,7 +41,6 @@ public class Window extends JFrame {
 
             for (String el : DATA1)
                 leftlistModel.addElement(el);
-
             for (String el : DATA2)
                 rightlistModel.addElement(el);
 
@@ -49,32 +48,33 @@ public class Window extends JFrame {
             add(new JScrollPane(leftlist, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.WEST);
             add(rightlist, BorderLayout.EAST);
             add(new JScrollPane(rightlist, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.EAST);
+
+
             right.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (!leftlist.isSelectionEmpty()) {
-                        rightlistModel.addElement(leftlist.getSelectedValue());
-                        leftlistModel.remove(leftlist.getSelectedIndex());
-                        if (!leftlistModel.isEmpty())
-                            leftlist.setSelectedIndex(0);
-                    }
-                }
+                            for (int i = 0; i < leftlistModel.size(); i++) {
+                                if(leftlist.isSelectedIndex(i)){
+                                    rightlistModel.addElement(leftlistModel.get(i));
+                                    leftlistModel.remove(i);
+                                    i--;   }
+                            }
+                        }
             });
             left.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (!rightlist.isSelectionEmpty()) {
-                        leftlistModel.addElement(rightlist.getSelectedValue());
-                        rightlistModel.remove(rightlist.getSelectedIndex());
-                        if (!rightlistModel.isEmpty())
-                            rightlist.setSelectedIndex(0);
+                        for (int i = 0; i < rightlistModel.size(); i++) {
+                            if (rightlist.isSelectedIndex(i)) {
+                                leftlistModel.addElement(rightlistModel.get(i));
+                                rightlistModel.remove(i);
+                                i--;
+                            }
+                        }
                     }
-                }
             });
-            pack();
-
         }
-    }
+    };
 
     class Task3 extends JPanel {
         public Task3() {
